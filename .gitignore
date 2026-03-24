@@ -1,0 +1,17 @@
+# 🔒 Environment variables
+.env.*
+
+# python
+venv/
+__pycache__/
+
+*.pyc
+*.pyo
+*.pyd
+
+
+# 🧠 IDE / Editor files
+.vscode/
+
+*.env
+

@@ -1,0 +1,7 @@
+starlette
+ariadne
+sqlalchemy[asyncio]
+asyncpg
+uvicorn
+python-dotenv
+alembic
