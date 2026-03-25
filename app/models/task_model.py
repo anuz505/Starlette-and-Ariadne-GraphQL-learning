@@ -17,7 +17,7 @@ class User(Base):
     password: Mapped[str] = mapped_column(String(255), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False, onupdate=datetime.now)
-    role: Mapped[RoleEnum] = mapped_column(SAEnum(RoleEnum, name="role_enum"), default=RoleEnum.project_manager, nullable=False)
+    role: Mapped[RoleEnum] = mapped_column(SAEnum(RoleEnum, name="role_enum"), default=RoleEnum.PROJECT_MANAGER, nullable=False)
 
     projects: Mapped[list["Project"]] = relationship("Project", back_populates="owner")
     tasks: Mapped[list["Task"]] = relationship("Task", back_populates="assignee")

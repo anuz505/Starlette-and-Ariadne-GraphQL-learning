@@ -14,5 +14,5 @@ class StatusEnum(str, enum.Enum):
 
 
 class RoleEnum(str, enum.Enum):
-    project_manager = "project_manager"
-    developer = "developer"
+    PROJECT_MANAGER = "PROJECT_MANAGER"
+    DEVELOPER = "DEVELOPER"

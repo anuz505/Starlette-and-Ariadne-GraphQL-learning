@@ -1,0 +1,45 @@
+scalar DateTime
+
+enum RoleEnum {DEVELOPER PROJECT_MANAGER}
+enum PriorityEnum {LOW MEDIUM HIGH}
+enum StatusEnum {TODO IN_PROGRESS DONE}
+
+type User{
+    id: ID!
+    username: String!
+    email: String!
+    password: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    role: RoleEnum!
+}
+
+type Project{
+    id: ID!
+    title: String!
+    owner_id: User!
+    created_at: DateTime!
+    updated_at: DateTime!
+    tasks: [Task!]!
+}
+
+type Task{
+    id: ID!
+    description: String!
+    priority: PriorityEnum!
+    status: StatusEnum!
+    project_id: Project!
+    assignee_id: User!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Query{
+    hello_world: String! # TODO remove hello world example
+    users: [User!]!
+    user(id: ID!): User
+    projects: [Project!]!
+    project(id: ID!): Project!
+    tasks: [Task!]!
+    task(id: ID!): Task
+}
