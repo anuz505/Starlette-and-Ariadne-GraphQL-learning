@@ -1,9 +1,8 @@
 from starlette.config import Config
-from starlette.datastructures import Secret
 
 config = Config("./app/.env")
 
-DATABASE_URL = config("DATABASE_URL", cast=Secret)
+DATABASE_URL = config("DATABASE_URL", cast=str)
 HOST = config("HOST", cast=str, default="127.0.0.1")
 PORT = config("PORT", cast=int, default=8000)
 DEBUG = config("DEBUG", cast=bool, default=False)
