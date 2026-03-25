@@ -1,9 +1,10 @@
 from contextlib import asynccontextmanager
+
 from ariadne.asgi import GraphQL
 from starlette.applications import Starlette
-from starlette.routing import Route
-# from starlette.requests import Request
+from starlette.routing import Mount, Route
 from starlette.responses import JSONResponse
+
 from app.db import init_db, drop_db
 from .schema import schema
 
@@ -14,15 +15,17 @@ async def lifesapn(app):
     yield
     await drop_db()
 
+
+graphql_app = GraphQL(schema, debug=True)
+
+
 routes = [
-    Route("/health", lambda r: JSONResponse({"status": "ok"}))
+    Route("/health", lambda r: JSONResponse({"status": "ok"})),
+    Mount("/graphql", graphql_app),
 ]
 
 app = Starlette(
     debug=True,
     routes=routes,
-    lifespan=lifesapn
+    lifespan=lifesapn,
 )
-
-
-app.mount("/graphql", GraphQL(schema, debug=True))

@@ -1,11 +1,14 @@
 from pathlib import Path
+from sqlalchemy.orm import selectinload
+from sqlalchemy import select
+from ariadne import ObjectType, load_schema_from_path, make_executable_schema
+from app.resolvers import query, mutation
 
-from ariadne import load_schema_from_path, make_executable_schema
 
-from app.resolvers.query import query
-
+user_type = ObjectType("User")
+project_type = ObjectType("Project")
 
 type_defs = load_schema_from_path(
     str(Path(__file__).resolve().parent.parent / "graphql" / "schema.graphql")
 )
-schema = make_executable_schema(type_defs, query)
+schema = make_executable_schema(type_defs, query, user_type, mutation, project_type)
