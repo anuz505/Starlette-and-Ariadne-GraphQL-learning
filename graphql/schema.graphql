@@ -13,13 +13,14 @@ type User{
     role: RoleEnum!
 }
 
-type Project{
-    id: ID!
-    title: String!
-    owner_id: User!
-    created_at: DateTime!
-    updated_at: DateTime!
-    tasks: [Task!]!
+type Project {
+  id: ID!
+  title: String!
+  owner_id: ID!
+  owner: User!
+  created_at: DateTime!
+  updated_at: DateTime!
+  tasks: [Task!]!
 }
 
 type Task{
@@ -27,14 +28,18 @@ type Task{
     description: String!
     priority: PriorityEnum!
     status: StatusEnum!
-    project_id: Project!
-    assignee_id: User!
+    project_id: ID!
+    project: Project!
+    assignee_id: ID
+    assignee: User
     created_at: DateTime!
     updated_at: DateTime!
 }
 
 input CreateUserInput {username: String! email: String! password: String! role: RoleEnum!}
-
+input CreateProjectInput {title: String! owner_id: ID!}
+input CreateTaskInput {description: String! priority: PriorityEnum! status: StatusEnum! project_id: ID! assignee_id: ID!}
+input UpdateTaskInput { title: String description: String priority: PriorityEnum status: StatusEnum assignee_id: ID }
 type Query{
     hello_world: String! # TODO remove hello world example
     users: [User!]!
@@ -48,4 +53,8 @@ type Query{
 
 type Mutation{
     createUser(input: CreateUserInput!): User!
+    createProject(input: CreateProjectInput!): Project!
+    createTask(input: CreateTaskInput): Task!
+    updateTask(id: ID!, input: UpdateTaskInput): Task!
+    deleteTask(id: ID!): Boolean!
 }

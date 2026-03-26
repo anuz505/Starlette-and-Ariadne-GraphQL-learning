@@ -2,9 +2,10 @@ from contextlib import asynccontextmanager
 
 from ariadne.asgi import GraphQL
 from starlette.applications import Starlette
+from starlette.requests import Request
 from starlette.routing import Mount, Route
 from starlette.responses import JSONResponse
-
+from app.middleware import DBSessionMiddleware
 from app.db import init_db, drop_db
 from .schema import schema
 
@@ -16,8 +17,14 @@ async def lifesapn(app):
     await drop_db()
 
 
-graphql_app = GraphQL(schema, debug=True)
+async def get_context_value(request: Request, _data):
+    return {
+        "request": request,
+        "session": request.state.session,
+    }
 
+
+graphql_app = GraphQL(schema, debug=True, context_value=get_context_value)
 
 routes = [
     Route("/health", lambda r: JSONResponse({"status": "ok"})),
@@ -29,3 +36,5 @@ app = Starlette(
     routes=routes,
     lifespan=lifesapn,
 )
+
+app.add_middleware(DBSessionMiddleware)
