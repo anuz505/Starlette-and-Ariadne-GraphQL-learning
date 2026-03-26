@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-
+from app.utils import custom_error_formatter
 from ariadne.asgi import GraphQL
 from starlette.applications import Starlette
 from starlette.requests import Request
@@ -24,7 +24,12 @@ async def get_context_value(request: Request, _data):
     }
 
 
-graphql_app = GraphQL(schema, debug=True, context_value=get_context_value)
+graphql_app = GraphQL(
+                      schema,
+                      debug=True,
+                      error_formatter=custom_error_formatter,
+                      context_value=get_context_value
+                    )
 
 routes = [
     Route("/health", lambda r: JSONResponse({"status": "ok"})),

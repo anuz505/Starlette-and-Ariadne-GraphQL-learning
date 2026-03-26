@@ -38,6 +38,7 @@ type Task{
 
 input CreateUserInput {username: String! email: String! password: String! role: RoleEnum!}
 input CreateProjectInput {title: String! owner_id: ID!}
+input UpdateProjectInput {title: String owner_id: ID}
 input CreateTaskInput {description: String! priority: PriorityEnum! status: StatusEnum! project_id: ID! assignee_id: ID!}
 input UpdateTaskInput { title: String description: String priority: PriorityEnum status: StatusEnum assignee_id: ID }
 type Query{
@@ -56,5 +57,7 @@ type Mutation{
     createProject(input: CreateProjectInput!): Project!
     createTask(input: CreateTaskInput): Task!
     updateTask(id: ID!, input: UpdateTaskInput): Task!
+    updateProject(id: ID!, input: UpdateProjectInput): Project!
     deleteTask(id: ID!): Boolean!
+    deleteProject(id: ID!): Boolean!
 }
